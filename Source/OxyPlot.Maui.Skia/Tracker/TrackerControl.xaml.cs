@@ -11,8 +11,8 @@ namespace OxyPlot.Maui.Skia
         {
             InitializeComponent();
 
-            Background = new SolidColorBrush(Color.FromArgb("#E0666666"));
-            LineStroke = new SolidColorBrush(Color.FromArgb("#80FFFFFF"));
+            Background = new SolidColorBrush(Color.FromArgb("#E0FFFFA0"));
+            LineStroke = new SolidColorBrush(Color.FromArgb("#80000000"));
 
             ControlTemplate = (ControlTemplate)Resources["TrackerControlTemplate"];
             IsClippedToBounds = false;
@@ -21,7 +21,6 @@ namespace OxyPlot.Maui.Skia
         public static Func<View> DefaultTrackerTemplateContentProvider = () =>
         {
             var label = new Label();
-            label.TextColor = Colors.White;
             label.Margin = 7;
             label.LineBreakMode = LineBreakMode.WordWrap;
             label.SetBinding(Label.TextProperty, ".");
@@ -82,10 +81,10 @@ namespace OxyPlot.Maui.Skia
             nameof(CornerRadius), typeof(double), typeof(TrackerControl), 0.0);
 
         public static readonly BindableProperty BorderThicknessProperty = BindableProperty.Create(
-            nameof(BorderThickness), typeof(int), typeof(TrackerControl), 0);
+            nameof(BorderThickness), typeof(int), typeof(TrackerControl), 1);
 
         public static readonly BindableProperty BorderBrushProperty = BindableProperty.Create(
-            nameof(BorderBrush), typeof(Brush), typeof(TrackerControl), Brush.White);
+            nameof(BorderBrush), typeof(Brush), typeof(TrackerControl), Brush.Black);
 
         /// <summary>
         /// Identifies the <see cref="Distance" /> dependency property.
@@ -373,11 +372,7 @@ namespace OxyPlot.Maui.Skia
 
             var canvasWidth = parent.Width;
             var canvasHeight = parent.Height;
-            var contentSize = content.DesiredSize;
-            if (contentSize.IsZero)
-            {
-                contentSize = content.Measure(canvasWidth, canvasHeight).Request;
-            }
+            var contentSize = content.Measure(canvasWidth, canvasHeight).Request;
 
             var contentWidth = contentSize.Width;
             var contentHeight = contentSize.Height;
@@ -444,7 +439,7 @@ namespace OxyPlot.Maui.Skia
 
             content.Margin = margin;
 
-            var contentContainerSize = new Size(contentSize.Width + margin.Left + margin.Right, contentSize.Height + margin.Top + margin.Bottom);
+            var contentContainerSize = new Size(contentSize.Width + margin.HorizontalThickness, contentSize.Height + margin.VerticalThickness);
 
             contentContainer.TranslationX = dx * contentContainerSize.Width;
             contentContainer.TranslationY = dy * contentContainerSize.Height;
@@ -541,8 +536,6 @@ namespace OxyPlot.Maui.Skia
             Point[] points = null;
             var m = Distance;
             margin = new Thickness();
-
-            // PathFigureCollectionConverter.ParseStringToPathFigureCollection();
 
             if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
             {
@@ -698,6 +691,11 @@ namespace OxyPlot.Maui.Skia
                     new Point(x1, y0),
                     new Point(x1, y1 - m)
                 };
+            }
+
+            if (BorderThickness > 0)
+            {
+                margin += BorderThickness;
             }
 
             if (points == null)
