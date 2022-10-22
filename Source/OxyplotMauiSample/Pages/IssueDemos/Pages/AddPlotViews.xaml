@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="OxyplotMauiSample.AddPlotViews" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia">
+    <VerticalStackLayout Spacing="8" Margin="10">
+        <Button Clicked="AddButtonClicked" Text="Add PlotView" />
+        <Button Clicked="RemoveButtonClicked" Text="Remove PlotView" />
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout x:Name="layout1" />
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>

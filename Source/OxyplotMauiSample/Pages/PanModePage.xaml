@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="OxyplotMauiSample.PanModePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia"
+    Title="Pan Mode">
+
+    <Grid RowDefinitions="Auto,*">
+        <StackLayout Orientation="Horizontal">
+            <RadioButton CheckedChanged="PanMode_OnCheckedChanged" Content="Default" IsChecked="True" Value="1" />
+            <RadioButton CheckedChanged="PanMode_OnCheckedChanged" Content="By two-finger" Value="2" />
+            <RadioButton CheckedChanged="PanMode_OnCheckedChanged" Content="By drag axis" Value="3" />
+        </StackLayout>
+        <oxy:PlotView x:Name="PlotView" Grid.Row="1" />
+    </Grid>
+
+</ContentPage>

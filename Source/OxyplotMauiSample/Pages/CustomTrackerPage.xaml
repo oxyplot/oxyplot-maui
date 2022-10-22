@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="OxyplotMauiSample.CustomTrackerPage" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia">
+    <oxy:PlotView x:Name="PlotView">
+        <oxy:PlotView.DefaultTrackerTemplate>
+            <ControlTemplate>
+                <oxy:TrackerControl
+                    Background="#DC393838"
+                    BorderBrush="Lime"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    LineDashArray="1,1"
+                    LineExtents="{Binding PlotModel.PlotArea}"
+                    LineStroke="Gold"
+                    Position="{Binding Position}"
+                    ShowPointer="False">
+                    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                        <VerticalStackLayout>
+                            <VisualElement.Resources>
+                                <Style TargetType="Label">
+                                    <Setter Property="TextColor" Value="White" />
+                                </Style>
+                            </VisualElement.Resources>
+                            <Label HorizontalOptions="Center" Text="{Binding Series.Title}" />
+                            <BoxView Margin="4,0" HeightRequest="1" Color="WhiteSmoke" />
+                            <Grid Margin="5" ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <Label Grid.Row="0" Grid.Column="0" Text="DataPoint.X:" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding DataPoint.X, StringFormat='{0:F3}'}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Text="DataPoint.Y:" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding DataPoint.Y, StringFormat='{0:F3}'}" />
+
+                                <Label Grid.Row="2" Grid.Column="0" Text="Position.X:" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Position.X, StringFormat='{0:F1}'}" />
+
+                                <Label Grid.Row="3" Grid.Column="0" Text="Position.Y:" />
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Position.Y, StringFormat='{0:F1}'}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Grid>
+                </oxy:TrackerControl>
+            </ControlTemplate>
+        </oxy:PlotView.DefaultTrackerTemplate>
+    </oxy:PlotView>
+</ContentPage>

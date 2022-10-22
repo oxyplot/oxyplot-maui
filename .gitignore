@@ -1,0 +1,6 @@
+bin/
+obj/
+.vs/
+packages/
+Resource.designer.cs
+*.user

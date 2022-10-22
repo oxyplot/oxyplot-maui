@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="OxyplotMauiSample.BackgroundColorPickers" xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia">
+    <StackLayout>
+        <Label Text="Page.BackgroundColor" />
+        <Picker x:Name="pageBackgroundPicker" />
+        <Label Text="PlotView.BackgroundColor" />
+        <Picker x:Name="viewBackgroundPicker" />
+        <Label Text="PlotModel.Background" />
+        <Picker x:Name="modelBackgroundPicker" />
+        <Label x:Name="plotViewLabel" Text="PlotView" />
+        <oxy:PlotView x:Name="plotView1" HeightRequest="200" />
+    </StackLayout>
+</ContentPage>
