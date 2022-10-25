@@ -220,7 +220,7 @@ namespace OxyPlot.Maui.Skia
         }
 
         /// <summary>
-        /// Gets or sets the corner radius (only used when ShowPointer=<c>false</c>).
+        /// Gets or sets the corner radius.
         /// </summary>
         public double CornerRadius
         {
@@ -445,9 +445,7 @@ namespace OxyPlot.Maui.Skia
             contentContainer.TranslationY = dy * contentContainerSize.Height;
 
             AbsoluteLayout.SetLayoutBounds(contentContainer,
-                new Rect(Position.X, Position.Y,
-                    contentContainerSize.Width,
-                    contentContainerSize.Height));
+                new Rect(Position.X, Position.Y, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             if (horizontalLine != null)
             {
@@ -531,335 +529,149 @@ namespace OxyPlot.Maui.Skia
         /// <param name="margin">The margin.</param>
         /// <returns>The border geometry.</returns>
         private Geometry CreatePointerBorderGeometry(
-            HorizontalAlignment ha, VerticalAlignment va, double width, double height, out Thickness margin)
+        HorizontalAlignment ha, VerticalAlignment va, double width, double height, out Thickness margin)
         {
-            Point[] points = null;
-            var m = Distance;
+            var distance = (float)Distance;
+            var m = distance * 0.67f;
             margin = new Thickness();
-
             if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
             {
-                double x0 = 0;
-                var x1 = width;
-                var x2 = (x0 + x1) / 2;
-                double y0 = 0;
-                var y1 = height;
-                margin = new Thickness(0, 0, 0, m);
-                points = new[]
-                {
-                    new Point(x0, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1),
-                    new Point(x2 + m / 2, y1),
-                    new Point(x2, y1 + m),
-                    new Point(x2 - m / 2, y1),
-                    new Point(x0, y1)
-                };
+                margin = new Thickness(0, 0, 0, distance);
             }
-
             if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Top)
             {
-                double x0 = 0;
-                var x1 = width;
-                var x2 = (x0 + x1) / 2;
-                var y0 = m;
-                var y1 = m + height;
-                margin = new Thickness(0, m, 0, 0);
-                points = new[]
-                {
-                    new Point(x0, y0),
-                    new Point(x2 - m / 2, y0),
-                    new Point(x2, 0),
-                    new Point(x2 + m / 2, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1),
-                    new Point(x0, y1)
-                };
+                margin = new Thickness(0, distance, 0, 0);
             }
-
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Middle)
             {
-                var x0 = m;
-                var x1 = m + width;
-                double y0 = 0;
-                var y1 = height;
-                var y2 = (y0 + y1) / 2;
-                margin = new Thickness(m, 0, 0, 0);
-                points = new[]
-                {
-                    new Point(0, y2),
-                    new Point(x0, y2 - m / 2),
-                    new Point(x0, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1),
-                    new Point(x0, y1),
-                    new Point(x0, y2 + m / 2)
-                };
+                margin = new Thickness(distance, 0, 0, 0);
             }
-
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Middle)
             {
-                double x0 = 0;
-                var x1 = width;
-                double y0 = 0;
-                var y1 = height;
-                var y2 = (y0 + y1) / 2;
-                margin = new Thickness(0, 0, m, 0);
-                points = new[]
-                {
-                    new Point(x1 + m, y2),
-                    new Point(x1, y2 + m / 2),
-                    new Point(x1, y1),
-                    new Point(x0, y1),
-                    new Point(x0, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y2 - m / 2)
-                };
+                margin = new Thickness(0, 0, distance, 0);
             }
-
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Top)
             {
-                m *= 0.67;
-                var x0 = m;
-                var x1 = m + width;
-                var y0 = m;
-                var y1 = m + height;
                 margin = new Thickness(m, m, 0, 0);
-                points = new[]
-                {
-                    new Point(0, 0),
-                    new Point(m * 2, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1),
-                    new Point(x0, y1),
-                    new Point(x0, m * 2)
-                };
             }
-
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Top)
             {
-                m *= 0.67;
-                double x0 = 0;
-                var x1 = width;
-                var y0 = m;
-                var y1 = m + height;
                 margin = new Thickness(0, m, m, 0);
-                points = new[]
-                {
-                    new Point(x1 + m, 0),
-                    new Point(x1, y0 + m),
-                    new Point(x1, y1),
-                    new Point(x0, y1),
-                    new Point(x0, y0),
-                    new Point(x1 - m, y0)
-                };
             }
-
             if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Bottom)
             {
-                m *= 0.67;
-                var x0 = m;
-                var x1 = m + width;
-                double y0 = 0;
-                var y1 = height;
                 margin = new Thickness(m, 0, 0, m);
-                points = new[]
-                {
-                    new Point(0, y1 + m),
-                    new Point(x0, y1 - m),
-                    new Point(x0, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1),
-                    new Point(x0 + m, y1)
-                };
             }
-
             if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Bottom)
             {
-                m *= 0.67;
-                double x0 = 0;
-                var x1 = width;
-                double y0 = 0;
-                var y1 = height;
                 margin = new Thickness(0, 0, m, m);
-                points = new[]
-                {
-                    new Point(x1 + m, y1 + m),
-                    new Point(x1 - m, y1),
-                    new Point(x0, y1),
-                    new Point(x0, y0),
-                    new Point(x1, y0),
-                    new Point(x1, y1 - m)
-                };
             }
+
+            float ml = (float)margin.Left;
+            float mr = (float)margin.Right;
+            float mt = (float)margin.Top;
+            float mb = (float)margin.Bottom;
+            float widthF = (float)(width + margin.HorizontalThickness);
+            float heightF = (float)(height + margin.VerticalThickness);
+
+            float cornerRadius = (float)CornerRadius;
+
+            var pathF = new PathF();
+            // left top
+            if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Top)
+            {
+                pathF.MoveTo(ml, m * 2);
+                pathF.LineTo(0, 0);
+                pathF.LineTo(m * 2, mt);
+            }
+            else
+            {
+                pathF.MoveTo(ml, cornerRadius + mt);
+                pathF.QuadTo(ml, mt, ml + cornerRadius, mt);
+            }
+
+            // top border
+            if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Top)
+            {
+                pathF.LineTo(widthF / 2 - distance / 2, mt);
+                pathF.LineTo(widthF / 2, 0);
+                pathF.LineTo(widthF / 2 + distance / 2, mt);
+            }
+            pathF.LineTo(widthF - mr - cornerRadius, mt);
+
+            // right top
+            if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Top)
+            {
+                pathF.LineTo(widthF - m * 2, mt);
+                pathF.LineTo(widthF, 0);
+                pathF.LineTo(widthF - m, m * 2);
+            }
+            else
+            {
+                pathF.QuadTo(widthF - mr, mt, widthF - mr, mt + cornerRadius);
+            }
+
+            // right border
+            if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Middle)
+            {
+                pathF.LineTo(widthF - mr, heightF / 2 - distance / 2);
+                pathF.LineTo(widthF, heightF / 2);
+                pathF.LineTo(widthF - mr, heightF / 2 + distance / 2);
+            }
+            pathF.LineTo(widthF - mr, heightF - cornerRadius - mb);
+
+            // right bottom
+            if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Bottom)
+            {
+                pathF.LineTo(widthF - m, heightF - m * 2);
+                pathF.LineTo(widthF, heightF);
+                pathF.LineTo(widthF - m * 2, heightF - mb);
+            }
+            else
+            {
+                pathF.QuadTo(widthF - mr, heightF - mb, widthF - mr - cornerRadius, heightF - mb);
+            }
+
+            // bottom border
+            if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
+            {
+                pathF.LineTo(widthF / 2 - distance / 2, heightF - mb);
+                pathF.LineTo(widthF / 2, heightF);
+                pathF.LineTo(widthF / 2 + distance / 2, heightF - mb);
+            }
+            pathF.LineTo(ml + cornerRadius, heightF - mb);
+
+            // left bottom         
+            if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Bottom)
+            {
+                pathF.LineTo(m * 2, heightF - mb);
+                pathF.LineTo(0, heightF);
+                pathF.LineTo(ml, heightF - m * 2);
+            }
+            else
+            {
+                pathF.QuadTo(ml, heightF - mb, ml, heightF - cornerRadius - mb);
+            }
+
+            // left border
+            if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Middle)
+            {
+                pathF.LineTo(ml, heightF / 2 - distance / 2);
+                pathF.LineTo(0, heightF / 2);
+                pathF.LineTo(ml, heightF / 2 + distance / 2);
+            }
+            pathF.LineTo(ml, cornerRadius);
+            pathF.Close();
 
             if (BorderThickness > 0)
             {
                 margin += BorderThickness;
             }
 
-            if (points == null)
-            {
-                return null;
-            }
-
-            var pc = new PointCollection();
-            foreach (var p in points)
-            {
-                pc.Add(p);
-            }
-
-            var segments = new PathSegmentCollection { new PolyLineSegment { Points = pc } };
-            var pf = new PathFigure { StartPoint = points[0], Segments = segments, IsClosed = true };
-            return new PathGeometry { Figures = new PathFigureCollection { pf } };
+            var pathGeometryCircle = new PathGeometry();
+            PathFigureCollectionConverter.ParseStringToPathFigureCollection(pathGeometryCircle.Figures, pathF.ToDefinitionString());
+            return pathGeometryCircle;
         }
-
-        //  private Geometry CreatePointerBorderGeometry2(
-        //HorizontalAlignment ha, VerticalAlignment va, float width, float height, out Thickness margin)
-        //  {
-        //      var distance = 7f;
-        //      var m = distance * 0.67f;
-        //      margin = new Thickness();
-        //      if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
-        //      {
-        //          margin = new Thickness(0, 0, 0, distance);
-        //      }
-        //      if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Top)
-        //      {
-        //          margin = new Thickness(0, distance, 0, 0);
-        //      }
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Middle)
-        //      {
-        //          margin = new Thickness(distance, 0, 0, 0);
-        //      }
-
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Middle)
-        //      {
-        //          margin = new Thickness(0, 0, distance, 0);
-        //      }
-
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Top)
-        //      {
-        //          margin = new Thickness(m, m, 0, 0);
-        //      }
-
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Top)
-        //      {
-        //          margin = new Thickness(0, m, m, 0);
-        //      }
-
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Bottom)
-        //      {
-        //          margin = new Thickness(m, 0, 0, m);
-        //      }
-
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Bottom)
-        //      {
-        //          margin = new Thickness(0, 0, m, m);
-        //      }
-
-        //      float ml = (float)margin.Left;
-        //      float mr = (float)margin.Right;
-        //      float mt = (float)margin.Top;
-        //      float mb = (float)margin.Bottom;
-        //      float cornerRadius = (float)this.CornerRadius;
-
-        //      var path = new PathF();
-        //      // left top
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Top)
-        //      {
-        //          path.MoveTo(ml, m * 2);
-        //          path.LineTo(0, 0);
-        //          path.LineTo(ml * 2, mt);
-        //      }
-        //      else
-        //      {
-        //          path.MoveTo(ml, cornerRadius + mt);
-        //          path.QuadTo(ml, mt, ml + cornerRadius, mt);
-        //      }
-
-        //      var pathStr = path.ToDefinitionString();
-
-        //      // top line
-        //      if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Top)
-        //      {
-        //          path.LineTo(width / 2 - m / 2, mt);
-        //          path.LineTo(width / 2, 0);
-        //          path.LineTo(width / 2 + m / 2, mt);
-        //      }
-        //      path.LineTo(width - mr - cornerRadius, mt);
-        //      pathStr = path.ToDefinitionString();
-
-        //      // right top
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Top)
-        //      {
-        //          path.LineTo(width - m * 2, mt);
-        //          path.LineTo(width, 0);
-        //          path.LineTo(width - m, m * 2);
-        //      }
-        //      else
-        //      {
-        //          path.QuadTo(width - mr, mt, width - mr, mt + cornerRadius);
-        //      }
-        //      pathStr = path.ToDefinitionString();
-        //      // right line
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Middle)
-        //      {
-        //          path.LineTo(width - mr, height / 2 - m / 2);
-        //          path.LineTo(width, height / 2);
-        //          path.LineTo(width - mr, height / 2 + m / 2);
-        //      }
-        //      path.LineTo(width - mr, height - cornerRadius - mb);
-        //      pathStr = path.ToDefinitionString();
-        //      // right bottom
-        //      if (ha == HorizontalAlignment.Right && va == VerticalAlignment.Bottom)
-        //      {
-        //          path.LineTo(width - m, height - m * 2);
-        //          path.LineTo(width, height);
-        //          path.LineTo(width - m * 2, height - mb);
-        //      }
-        //      else
-        //      {
-        //          path.QuadTo(width - mr, height - mb, width - mr - cornerRadius, height - mb);
-        //      }
-        //      pathStr = path.ToDefinitionString();
-        //      // bottom line
-        //      if (ha == HorizontalAlignment.Center && va == VerticalAlignment.Bottom)
-        //      {
-        //          path.LineTo(width / 2 - m / 2, height - mb);
-        //          path.LineTo(width / 2, height);
-        //          path.LineTo(width / 2 + m / 2, height - mb);
-        //      }
-        //      path.LineTo(ml + cornerRadius, height - mb);
-        //      pathStr = path.ToDefinitionString();
-        //      // left bottom
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Bottom)
-        //      {
-        //          path.LineTo(m * 2, height - mb);
-        //          path.LineTo(0, height);
-        //          path.LineTo(ml, height - m * 2);
-        //      }
-        //      else
-        //      {
-        //          path.QuadTo(ml, height - mb, ml, height - cornerRadius - mb);
-        //      }
-        //      pathStr = path.ToDefinitionString();
-        //      // left line
-        //      if (ha == HorizontalAlignment.Left && va == VerticalAlignment.Middle)
-        //      {
-        //          path.LineTo(ml, height / 2 - m / 2);
-        //          path.LineTo(0, height / 2);
-        //          path.LineTo(ml, height / 2 + m / 2);
-        //      }
-        //      path.LineTo(ml, cornerRadius);
-        //      pathStr = path.ToDefinitionString();
-        //      path.Close();
-        //      var str = path.ToDefinitionString();
-
-        //      var pathGeometryCircle = new PathGeometry();
-        //      PathFigureCollectionConverter.ParseStringToPathFigureCollection(pathGeometryCircle.Figures, str);
-        //      return pathGeometryCircle;
-        //  }
 
         protected override void OnPropertyChanged(string propertyName = null)
         {
