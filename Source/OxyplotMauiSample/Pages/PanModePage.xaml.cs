@@ -9,9 +9,10 @@ namespace OxyplotMauiSample
         public PanModePage()
         {
             InitializeComponent();
+            this.Loaded += PanModePage_Loaded;
         }
 
-        protected override void OnAppearing()
+        private void PanModePage_Loaded(object sender, EventArgs e)
         {
             PlotView.Model = ShowCases.CreateNormalDistributionModel();
         }

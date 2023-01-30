@@ -7,9 +7,10 @@ namespace OxyplotMauiSample
         public CustomTrackerPage()
         {
             InitializeComponent();
+            this.Loaded += CustomTrackerPage_Loaded;
         }
-        
-        protected override void OnAppearing()
+
+        private void CustomTrackerPage_Loaded(object sender, EventArgs e)
         {
             PlotView.Model = ShowCases.CreateNormalDistributionModel();
         }

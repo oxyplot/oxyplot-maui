@@ -3,7 +3,7 @@
     public class MyTouchEffect : RoutingEffect
     {
         public event TouchActionEventHandler TouchAction;
-        
+
         public void OnTouchAction(Microsoft.Maui.Controls.Element element, TouchActionEventArgs args)
         {
             TouchAction?.Invoke(element, args);
@@ -16,7 +16,8 @@
     {
         Pressed,
         Moved,
-        Released
+        Released,
+        MouseWheel
     }
 
     public class TouchActionEventArgs : EventArgs
@@ -38,5 +39,9 @@
         public Point[] Locations { get; }
 
         public bool IsInContact { get; }
+
+        public OxyModifierKeys ModifierKeys { get; set; }
+
+        public int MouseWheelDelta { get; set; }
     }
 }

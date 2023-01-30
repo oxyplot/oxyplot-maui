@@ -15,6 +15,11 @@ namespace OxyPlot.Maui.Skia
                 );
 
             this.BindTouchDown(cmd);
+
+#if WINDOWS
+            this.BindMouseWheel(OxyPlot.PlotCommands.ZoomWheel);
+            this.BindMouseWheel(OxyModifierKeys.Control, OxyPlot.PlotCommands.ZoomWheelFine);
+#endif
         }
     }
 }

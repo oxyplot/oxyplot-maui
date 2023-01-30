@@ -27,7 +27,13 @@ namespace OxyPlot.Maui.Skia.Windows.Effects
                 frameworkElement.PointerPressed += OnPointerPressed;
                 frameworkElement.PointerMoved += OnPointerMoved;
                 frameworkElement.PointerReleased += OnPointerReleased;
+                frameworkElement.PointerWheelChanged += FrameworkElement_PointerWheelChanged;
             }
+        }
+
+        private void FrameworkElement_PointerWheelChanged(object sender, PointerRoutedEventArgs args)
+        {
+            CommonHandler(sender, TouchActionType.MouseWheel, args);
         }
 
         protected override void OnDetached()
@@ -37,6 +43,7 @@ namespace OxyPlot.Maui.Skia.Windows.Effects
                 frameworkElement.PointerPressed -= OnPointerPressed;
                 frameworkElement.PointerMoved -= OnPointerMoved;
                 frameworkElement.PointerReleased -= OnPointerReleased;
+                frameworkElement.PointerWheelChanged -= FrameworkElement_PointerWheelChanged;
             }
         }
 
@@ -63,10 +70,20 @@ namespace OxyPlot.Maui.Skia.Windows.Effects
         {
             var pointerPoint = args.GetCurrentPoint(sender as UIElement);
             var windowsPoint = pointerPoint.Position;
-            onTouchAction(Element, new TouchActionEventArgs(args.Pointer.PointerId,
-                                                            touchActionType,
-                                                            new Point[] { new(windowsPoint.X, windowsPoint.Y) },
-                                                            args.Pointer.IsInContact));
+            var touchArgs = new TouchActionEventArgs(args.Pointer.PointerId,
+                touchActionType,
+                new Point[] { new(windowsPoint.X, windowsPoint.Y) },
+                args.Pointer.IsInContact)
+            {
+                ModifierKeys = args.KeyModifiers.ToOxyModifierKeys()
+            };
+
+            if (touchActionType == TouchActionType.MouseWheel)
+            {
+                touchArgs.MouseWheelDelta = pointerPoint.Properties.MouseWheelDelta;
+            }
+
+            onTouchAction(Element, touchArgs);
         }
     }
 }

@@ -38,6 +38,9 @@ namespace OxyPlot.Maui.Skia
                 case TouchActionType.Released:
                     OnTouchUpEvent(e);
                     break;
+                case TouchActionType.MouseWheel:
+                    OnMouseWheelEvent(e);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -78,6 +81,22 @@ namespace OxyPlot.Maui.Skia
         private bool OnTouchUpEvent(TouchActionEventArgs e)
         {
             return this.ActualController.HandleTouchCompleted(this, ToTouchEventArgs(e, Scale));
+        }
+
+        /// <summary>
+        /// Handles Mouse Wheel events.
+        /// </summary>
+        /// <param name="e">The motion event arguments.</param>
+        /// <returns><c>true</c> if the event was handled.</returns>
+        private bool OnMouseWheelEvent(TouchActionEventArgs e)
+        {
+            var args = new OxyMouseWheelEventArgs
+            {
+                Position = new ScreenPoint(e.Location.X / Scale, e.Location.Y / Scale),
+                Delta = e.MouseWheelDelta,
+                ModifierKeys = e.ModifierKeys
+            };
+            return this.ActualController.HandleMouseWheel(this, args);
         }
 
         /// <summary>

@@ -169,9 +169,9 @@ namespace OxyPlot.Maui.Skia.Manipulators
                 this.currentSeries, position, this.Snap, this.PointsOnly, this.FiresDistance, this.CheckDistanceBetweenPoints);
             if (result != null)
             {
-                result.PlotModel = this.PlotView.ActualModel;
+                result.PlotModel = actualModel;
                 this.PlotView.ShowTracker(result);
-                this.PlotView.ActualModel.RaiseTrackerChanged(result);
+                actualModel.RaiseTrackerChanged(result);
             }
         }
     }
