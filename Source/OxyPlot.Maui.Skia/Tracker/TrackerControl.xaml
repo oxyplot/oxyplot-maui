@@ -5,19 +5,17 @@
             <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
                 <Line
                     x:Name="PART_HorizontalLine"
-                    HeightRequest="9999"
+                    HeightRequest="1"
                     IsVisible="{TemplateBinding HorizontalLineVisibility}"
                     Stroke="{TemplateBinding LineStroke}"
-                    StrokeDashArray="1,1"
-                    StrokeDashOffset="6"
-                    WidthRequest="9999" />
+                    WidthRequest="999" />
                 <Line
                     x:Name="PART_VerticalLine"
-                    HeightRequest="9999"
+                    HeightRequest="999"
                     IsVisible="{TemplateBinding VerticalLineVisibility}"
                     Stroke="{TemplateBinding LineStroke}"
                     StrokeDashArray="{TemplateBinding LineDashArray}"
-                    WidthRequest="9999" />
+                    WidthRequest="1" />
                 <Grid x:Name="PART_ContentContainer">
                     <Path x:Name="PART_Path" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" />
                     <ContentPresenter x:Name="PART_Content" HorizontalOptions="Center" VerticalOptions="Center" />

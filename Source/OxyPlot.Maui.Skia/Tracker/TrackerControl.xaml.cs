@@ -449,6 +449,8 @@ namespace OxyPlot.Maui.Skia
 
             if (horizontalLine != null)
             {
+                horizontalLine.WidthRequest = canvasWidth;
+
                 if (LineExtents.Width > 0)
                 {
                     horizontalLine.X1 = LineExtents.Left;
@@ -469,6 +471,8 @@ namespace OxyPlot.Maui.Skia
 
             if (verticalLine != null)
             {
+                verticalLine.HeightRequest = canvasHeight;
+
                 if (LineExtents.Height > 0)
                 {
                     verticalLine.Y1 = LineExtents.Top;
