@@ -19,11 +19,53 @@ namespace ExampleLibrary
             var model = new PlotModel { Title = "EllipseAnnotation" };
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom });
             model.Axes.Add(new LinearAxis { Position = AxisPosition.Left });
-            model.Annotations.Add(new EllipseAnnotation { X = 20, Y = 60, Width = 20, Height = 15, Text = "EllipseAnnotation", TextRotation = 10, Fill = OxyColor.FromAColor(99, OxyColors.Green), Stroke = OxyColors.Black, StrokeThickness = 2 });
+            model.Annotations.Add(new EllipseAnnotation
+            {
+                X = 20,
+                Y = 60,
+                Width = 20,
+                Height = 15,
+                Text = "EllipseAnnotation",
+                ToolTip = "EllipseAnnotation",
+                TextRotation = 10,
+                Fill = OxyColor.FromAColor(99, OxyColors.Green),
+                Stroke = OxyColors.Black,
+                StrokeThickness = 2
+            });
 
-            model.Annotations.Add(new EllipseAnnotation { X = 20, Y = 20, Width = 20, Height = 20, Fill = OxyColor.FromAColor(99, OxyColors.Green), Stroke = OxyColors.Black, StrokeThickness = 2 });
-            model.Annotations.Add(new EllipseAnnotation { X = 30, Y = 20, Width = 20, Height = 20, Fill = OxyColor.FromAColor(99, OxyColors.Red), Stroke = OxyColors.Black, StrokeThickness = 2 });
-            model.Annotations.Add(new EllipseAnnotation { X = 25, Y = 30, Width = 20, Height = 20, Fill = OxyColor.FromAColor(99, OxyColors.Blue), Stroke = OxyColors.Black, StrokeThickness = 2 });
+            model.Annotations.Add(new EllipseAnnotation
+            {
+                X = 20,
+                Y = 20,
+                Width = 20,
+                Height = 20,
+                Fill = OxyColor.FromAColor(99, OxyColors.Green),
+                ToolTip = "Green",
+                Stroke = OxyColors.Black,
+                StrokeThickness = 2
+            });
+            model.Annotations.Add(new EllipseAnnotation
+            {
+                X = 30,
+                Y = 20,
+                Width = 20,
+                Height = 20,
+                Fill = OxyColor.FromAColor(99, OxyColors.Red),
+                ToolTip = "Red",
+                Stroke = OxyColors.Black,
+                StrokeThickness = 2
+            });
+            model.Annotations.Add(new EllipseAnnotation
+            {
+                X = 25,
+                Y = 30,
+                Width = 20,
+                Height = 20,
+                Fill = OxyColor.FromAColor(99, OxyColors.Blue),
+                ToolTip = "Blue",
+                Stroke = OxyColors.Black,
+                StrokeThickness = 2
+            });
             return model;
         }
     }

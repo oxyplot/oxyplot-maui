@@ -1,6 +1,9 @@
 ﻿using ExampleLibrary;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using OxyPlot;
+using OxyPlot.Maui.Skia;
+using OxyPlot.Maui.Skia.Core;
 
 namespace OxyplotMauiSample
 {
@@ -29,13 +32,45 @@ namespace OxyplotMauiSample
                 return;
 
             var exampleInfo = e.SelectedItem as ExampleInfo;
+            if (exampleInfo == null)
+                return;
+
             var page = new PlotViewPage
             {
                 ExampleInfo = exampleInfo
             };
+
+            // try add tracker support for annotations
+            if (exampleInfo.Tags.Contains("Annotations") && exampleInfo.PlotController == null)
+            {
+                exampleInfo.Example.Controller = CreateAnnotationTrackController();
+            }
             await Navigation.PushAsync(page);
 
             LvExamples.SelectedItem = null;
+        }
+
+        private IPlotController CreateAnnotationTrackController()
+        {
+            var controller = new OxyPlot.Maui.Skia.PlotController();
+            controller.UnbindTouchDown();
+
+            var snapTrackTouch = new DelegatePlotCommand<OxyTouchEventArgs>((view, c, args) =>
+                c.AddTouchManipulator(view, new OxyPlot.Maui.Skia.Manipulators.TouchTrackerManipulator(view)
+                {
+                    Snap = true,
+                    PointsOnly = true,
+                    LockToInitialSeries = false,
+                    IsTrackAnnotations = true
+                }, args));
+
+            var cmd = new CompositeDelegateViewCommand<OxyTouchEventArgs>(
+                snapTrackTouch,
+                OxyPlot.Maui.Skia.PlotCommands.PanZoomByTouch
+            );
+            controller.BindTouchDown(cmd);
+
+            return controller;
         }
     }
 

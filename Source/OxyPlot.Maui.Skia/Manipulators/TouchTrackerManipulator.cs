@@ -58,6 +58,11 @@ namespace OxyPlot.Maui.Skia.Manipulators
         public bool CheckDistanceBetweenPoints { get; set; }
 
         /// <summary>
+        ///  Gets or sets a value indicating whether to track annotations.
+        /// </summary>
+        public bool IsTrackAnnotations { get; set; } = false;
+
+        /// <summary>
         /// Occurs when a manipulation is complete.
         /// </summary>
         /// <param name="e">The <see cref="OxyPlot.OxyTouchEventArgs" /> instance containing the event data.</param>
@@ -151,6 +156,10 @@ namespace OxyPlot.Maui.Skia.Manipulators
                     this.PlotView.HideTracker();
                 }
 
+                if (IsTrackAnnotations)
+                {
+                    TrackAnnotations(position);
+                }
                 return;
             }
 
@@ -172,6 +181,36 @@ namespace OxyPlot.Maui.Skia.Manipulators
                 result.PlotModel = actualModel;
                 this.PlotView.ShowTracker(result);
                 actualModel.RaiseTrackerChanged(result);
+            }
+        }
+
+        /// <summary>
+        /// Track Annotations
+        /// </summary>
+        /// <param name="sp"></param>
+        private void TrackAnnotations(ScreenPoint sp)
+        {
+            foreach (var annotation in PlotView.ActualModel.Annotations
+                         .Where(x => !string.IsNullOrEmpty(x.ToolTip))
+                         .Reverse())
+            {
+                var args = new HitTestArguments(sp, FiresDistance);
+                var res = annotation.HitTest(args);
+
+                if (res == null)
+                    continue;
+                
+                var dp = annotation.InverseTransform(sp);
+                var result = new TrackerHitResult
+                {
+                    Position = sp,
+                    DataPoint = dp,
+                    Text = annotation.ToolTip,
+                    PlotModel = this.PlotView.ActualModel
+                };
+                this.PlotView.ShowTracker(result);
+                this.PlotView.ActualModel.RaiseTrackerChanged(result);
+                break;
             }
         }
     }
