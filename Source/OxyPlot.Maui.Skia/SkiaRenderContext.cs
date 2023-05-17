@@ -4,12 +4,11 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.IO;
-
 namespace OxyPlot.Maui.Skia
 {
     using global::SkiaSharp;
     using global::SkiaSharp.HarfBuzz;
+    using OxyPlot.Maui.Skia.Fonts;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -853,7 +852,7 @@ namespace OxyPlot.Maui.Skia
             var fontDescriptor = new FontDescriptor(fontFamily, fontWeight);
             if (!this.typefaceCache.TryGetValue(fontDescriptor, out var typeface))
             {
-                typeface = ResolveTypeface(fontFamily, (int)fontWeight);
+                typeface = SkFontsHelper.ResolveFont(fontFamily, (int)fontWeight);
                 this.typefaceCache.Add(fontDescriptor, typeface);
             }
 
@@ -877,52 +876,6 @@ namespace OxyPlot.Maui.Skia
             this.paint.HintingLevel = this.RendersToScreen ? SKPaintHinting.Full : SKPaintHinting.NoHinting;
             this.paint.SubpixelText = this.RendersToScreen;
             return this.paint;
-        }
-
-        protected virtual SKTypeface ResolveTypeface(string fontFamily, int fontWeight)
-        {
-            var typeface = SKTypeface.FromFamilyName(fontFamily, new SKFontStyle(fontWeight, (int)SKFontStyleWidth.Normal, SKFontStyleSlant.Upright));
-            if (typeface != null && typeface.FamilyName == fontFamily)
-                return typeface;
-
-            SKTypeface typefaceFallback = typeface;
-            if (MauiPlotSetting.SKTypefaceProvider != null)
-            {
-                typeface = MauiPlotSetting.SKTypefaceProvider(fontFamily);
-
-                if (typeface != null)
-                    return typeface;
-            }
-
-            typeface = GetTypefaceFromCustomDirectory(fontFamily);
-            if (typeface != null)
-                return typeface;
-
-            return typefaceFallback ?? SKTypeface.Default;
-        }
-
-        private SKTypeface GetTypefaceFromCustomDirectory(string fontFamily)
-        {
-            if (string.IsNullOrEmpty(MauiPlotSetting.CustomFontsDirectory) ||
-                !Directory.Exists(MauiPlotSetting.CustomFontsDirectory))
-            {
-                return null;
-            }
-
-            var fontExts = new string[] { "*.ttf", "*.ttc", "*.otf" };
-            foreach (var ext in fontExts)
-            {
-                foreach (var file in Directory.GetFiles(MauiPlotSetting.CustomFontsDirectory, ext))
-                {
-                    var tf = SKTypeface.FromFile(file);
-                    if (tf.FamilyName.Equals(fontFamily, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return tf;
-                    }
-                }
-            }
-
-            return null;
         }
 
         /// <summary>

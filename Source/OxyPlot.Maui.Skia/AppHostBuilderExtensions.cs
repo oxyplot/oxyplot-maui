@@ -1,4 +1,5 @@
 ﻿using OxyPlot.Maui.Skia.Effects;
+using OxyPlot.Maui.Skia.Fonts;
 
 namespace OxyPlot.Maui.Skia;
 
@@ -12,9 +13,17 @@ public static class AppHostBuilderExtensions
             effects.Add<MyTouchEffect, Droid.Effects.PlatformTouchEffect>();
 #elif WINDOWS
             effects.Add<MyTouchEffect, Windows.Effects.PlatformTouchEffect>();
+#elif MACCATALYST
+            // not implemented
 #elif __IOS__
-            // effects.Add<MyTouchEffect, OxyPlot.Maui.Skia.ios.Effects.PlatformTouchEffect>();
+            effects.Add<MyTouchEffect, ios.Effects.PlatformTouchEffect>();
 #endif
         });
+    }
+
+    public static MauiAppBuilder UseOxyPlotSkiaCustomFonts(this MauiAppBuilder builder, IPlotFontsResolver resolver)
+    {
+        SkFontsHelper.FontsResolver = resolver;
+        return builder;
     }
 }

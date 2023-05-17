@@ -49,12 +49,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Raw\NotoSansCJKsc-Regular.otf" />
+	  <None Remove="Resources\Fonts\NotoSansCJKsc-Regular.otf" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Examples\ExampleLibrary\ExampleLibrary.csproj" />
 	  <ProjectReference Include="..\OxyPlot.Maui.Skia\OxyPlot.Maui.Skia.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiFont Update="Resources\Fonts\NotoSansCJKsc-Regular.otf">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiFont>
 	</ItemGroup>
 
 	<ItemGroup>

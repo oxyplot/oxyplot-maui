@@ -16,7 +16,11 @@ namespace OxyplotMauiSample
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("NotoSansCJKsc-Regular.otf", "NotoSansCJKsc");
                 });
+
+            // CustomFontsResolver:
+            //builder.UseOxyPlotSkiaCustomFonts(new OxyPlot.Maui.Skia.Fonts.LocalFileFontsResolver(fontsDir));
 
             return builder.Build();
         }

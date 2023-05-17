@@ -5,8 +5,8 @@ namespace OxyplotMauiSample
 {
     public partial class PlotViewPage
     {
-        private const string DefaultFont = "Noto Sans CJK SC";
-        
+        private const string DefaultFont = "NotoSansCJKsc";
+
         public ExampleInfo ExampleInfo { get; set; }
 
         public PlotViewPage()
@@ -35,7 +35,7 @@ namespace OxyplotMauiSample
         {
             PlotView.Model = null;
         }
-        
+
         private void TbReverse_OnClicked(object sender, EventArgs e)
         {
             var mi = sender as ToolbarItem;
