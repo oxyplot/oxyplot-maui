@@ -23,7 +23,6 @@ internal static class SkFontsHelper
 
     public static SKTypeface ResolveFont(string fontFamily, int fontWeight)
     {
-        return SKTypeface.Default;
         var key = $"{fontFamily}\t{fontWeight}";
         return FontCache.GetOrAdd(key, (_) => ResolveFontCore(fontFamily, fontWeight));
     }
