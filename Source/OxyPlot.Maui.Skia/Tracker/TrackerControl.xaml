@@ -18,7 +18,7 @@
                     WidthRequest="1" />
                 <Grid x:Name="PART_ContentContainer">
                     <Path x:Name="PART_Path" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" />
-                    <ContentPresenter x:Name="PART_Content" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <ContentPresenter x:Name="PART_Content" HorizontalOptions="Fill" VerticalOptions="Fill" />
                 </Grid>
             </AbsoluteLayout>
         </ControlTemplate>
