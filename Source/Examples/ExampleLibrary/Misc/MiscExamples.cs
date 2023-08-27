@@ -16,10 +16,8 @@ namespace ExampleLibrary
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Xml.Serialization;
-
+    
     using OxyPlot;
-    using OxyPlot.Annotations;
     using OxyPlot.Axes;
     using OxyPlot.Series;
     using OxyPlot.Legends;
