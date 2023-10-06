@@ -22,7 +22,30 @@ namespace OxyPlot.Maui.Skia
         {
             var touchEffect = new MyTouchEffect();
             touchEffect.TouchAction += TouchEffect_TouchAction;
-            this.Effects.Add(touchEffect);
+            if (!InputTransparent)
+            {
+                this.Effects.Add(touchEffect);
+            }
+            this.PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName is null) return;
+                if (args.PropertyName != nameof(InputTransparent)) return;
+                if (InputTransparent)
+                {
+                    if (this.Effects.Contains(touchEffect))
+                    {
+                        this.Effects.Remove(touchEffect);
+                    }
+                }
+                else
+                {
+                    if (!this.Effects.Contains(touchEffect))
+                    {
+                        this.Effects.Add(touchEffect);
+                    }
+                    
+                }
+            };
         }
 
         private void TouchEffect_TouchAction(object sender, TouchActionEventArgs e)
