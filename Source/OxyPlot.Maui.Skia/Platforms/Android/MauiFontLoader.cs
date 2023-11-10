@@ -5,7 +5,7 @@ namespace OxyPlot.Maui.Skia.Platforms.Android;
 
 public class MauiFontLoader : IMauiFontLoader
 {
-    static readonly string[] FontFolders = new[]
+    static readonly string[] FontFolders =
     {
         "Fonts/",
         "fonts/",

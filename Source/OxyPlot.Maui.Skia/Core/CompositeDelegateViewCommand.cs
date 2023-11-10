@@ -1,36 +1,35 @@
-﻿namespace OxyPlot.Maui.Skia.Core
+﻿namespace OxyPlot.Maui.Skia.Core;
+
+/// <summary>
+/// Combine multiple commands to one.
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class CompositeDelegateViewCommand<T> : IViewCommand<T>
+    where T : OxyInputEventArgs
 {
-    /// <summary>
-    /// Combine multiple commands to one.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class CompositeDelegateViewCommand<T> : IViewCommand<T>
-        where T : OxyInputEventArgs
+    private readonly IViewCommand<T>[] commands;
+    public CompositeDelegateViewCommand(params IViewCommand<T>[] commands)
     {
-        private readonly IViewCommand<T>[] commands;
-        public CompositeDelegateViewCommand(params IViewCommand<T>[] commands)
-        {
-            this.commands = commands;
-        }
+        this.commands = commands;
+    }
 
-        public void Execute(IView view, IController controller, T args)
+    public void Execute(IView view, IController controller, T args)
+    {
+        foreach (var cmd in commands)
         {
-            foreach (var cmd in commands)
-            {
-                cmd.Execute(view, controller, args);
-                if (args.Handled)
-                    break;
-            }
+            cmd.Execute(view, controller, args);
+            if (args.Handled)
+                break;
         }
+    }
 
-        public void Execute(IView view, IController controller, OxyInputEventArgs args)
+    public void Execute(IView view, IController controller, OxyInputEventArgs args)
+    {
+        foreach (var cmd in commands)
         {
-            foreach (var cmd in commands)
-            {
-                cmd.Execute(view, controller, args);
-                if (args.Handled)
-                    break;
-            }
+            cmd.Execute(view, controller, args);
+            if (args.Handled)
+                break;
         }
     }
 }

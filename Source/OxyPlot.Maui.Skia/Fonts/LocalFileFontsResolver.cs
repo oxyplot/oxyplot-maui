@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace OxyPlot.Maui.Skia.Fonts;
+﻿namespace OxyPlot.Maui.Skia.Fonts;
 
 public class LocalFileFontsResolver : IPlotFontsResolver
 {

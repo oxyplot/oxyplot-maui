@@ -1,47 +1,46 @@
-﻿namespace OxyPlot.Maui.Skia.Effects
+﻿namespace OxyPlot.Maui.Skia.Effects;
+
+public class MyTouchEffect : RoutingEffect
 {
-    public class MyTouchEffect : RoutingEffect
-    {
-        public event TouchActionEventHandler TouchAction;
+    public event TouchActionEventHandler TouchAction;
 
-        public void OnTouchAction(Microsoft.Maui.Controls.Element element, TouchActionEventArgs args)
-        {
-            TouchAction?.Invoke(element, args);
-        }
+    public void OnTouchAction(Microsoft.Maui.Controls.Element element, TouchActionEventArgs args)
+    {
+        TouchAction?.Invoke(element, args);
+    }
+}
+
+public delegate void TouchActionEventHandler(object sender, TouchActionEventArgs args);
+
+public enum TouchActionType
+{
+    Pressed,
+    Moved,
+    Released,
+    MouseWheel
+}
+
+public class TouchActionEventArgs : EventArgs
+{
+    public TouchActionEventArgs(long id, TouchActionType type, Point[] locations, bool isInContact)
+    {
+        Id = id;
+        Type = type;
+        Locations = locations;
+        IsInContact = isInContact;
     }
 
-    public delegate void TouchActionEventHandler(object sender, TouchActionEventArgs args);
+    public long Id { get; }
 
-    public enum TouchActionType
-    {
-        Pressed,
-        Moved,
-        Released,
-        MouseWheel
-    }
+    public TouchActionType Type { get; }
 
-    public class TouchActionEventArgs : EventArgs
-    {
-        public TouchActionEventArgs(long id, TouchActionType type, Point[] locations, bool isInContact)
-        {
-            Id = id;
-            Type = type;
-            Locations = locations;
-            IsInContact = isInContact;
-        }
+    public Point Location => Locations == null || Locations.Length == 0 ? Point.Zero : Locations[0];
 
-        public long Id { get; }
+    public Point[] Locations { get; }
 
-        public TouchActionType Type { get; }
+    public bool IsInContact { get; }
 
-        public Point Location => Locations == null || Locations.Length == 0 ? Point.Zero : Locations[0];
+    public OxyModifierKeys ModifierKeys { get; set; }
 
-        public Point[] Locations { get; }
-
-        public bool IsInContact { get; }
-
-        public OxyModifierKeys ModifierKeys { get; set; }
-
-        public int MouseWheelDelta { get; set; }
-    }
+    public int MouseWheelDelta { get; set; }
 }
