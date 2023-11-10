@@ -159,7 +159,7 @@ namespace OxyPlot.Maui.Skia.ios.Effects
 
         void FireEvent(TouchRecognizer recognizer, long id, TouchActionType actionType, UITouch touch, bool isInContact)
         {
-            // Convert touch location to Xamarin.Forms Point value
+            // Convert touch location to Maui Point value
             CGPoint cgPoint = touch.LocationInView(recognizer.View);
             Point xfPoint = new Point(cgPoint.X, cgPoint.Y);
 

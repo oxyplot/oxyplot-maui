@@ -75,7 +75,7 @@
             var previousPosition = newPosition - e.DeltaTranslation;
 
             var ignorePan = IsOnlyAcceptAxisPan && this.XAxis != null && this.YAxis != null;
-            if (!ignorePan && IsPanByTowFinger && e is XamarinOxyTouchEventArgs e2)
+            if (!ignorePan && IsPanByTowFinger && e is MauiOxyTouchEventArgs e2)
             {
                 ignorePan = e2.PointerCount == 1;
             }

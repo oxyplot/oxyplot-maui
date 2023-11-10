@@ -9,7 +9,7 @@ using OxyPlot.Maui.Skia.Effects;
 namespace OxyPlot.Maui.Skia
 {
     /// <summary>
-    /// Base class for WPF PlotView implementations.
+    /// Base class for MAUI PlotView implementations.
     /// </summary>
     public abstract partial class PlotViewBase
     {
@@ -90,7 +90,7 @@ namespace OxyPlot.Maui.Skia
         private bool OnTouchMoveEvent(TouchActionEventArgs e)
         {
             var currentTouchPoints = GetTouchPoints(e, Scale);
-            var args = new XamarinOxyTouchEventArgs(currentTouchPoints, this.previousTouchPoints);
+            var args = new MauiOxyTouchEventArgs(currentTouchPoints, this.previousTouchPoints);
             var handled = this.ActualController.HandleTouchDelta(this, args);
             this.previousTouchPoints = currentTouchPoints;
             return handled;
@@ -130,7 +130,7 @@ namespace OxyPlot.Maui.Skia
         /// <returns>The converted event arguments.</returns>
         public static OxyTouchEventArgs ToTouchEventArgs(TouchActionEventArgs e, double scale)
         {
-            return new XamarinOxyTouchEventArgs
+            return new MauiOxyTouchEventArgs
             {
                 Position = new ScreenPoint(e.Location.X / scale, e.Location.Y / scale),
                 DeltaTranslation = new ScreenVector(0, 0),

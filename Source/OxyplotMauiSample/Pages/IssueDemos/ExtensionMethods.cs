@@ -3,7 +3,7 @@
 //   Copyright (c) 2014 OxyPlot contributors
 // </copyright>
 // <summary>
-//   Provides extension methods related to OxyPlot and Xamarin.Forms.
+//   Provides extension methods related to OxyPlot and Maui.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ using OxyPlot;
 namespace OxyplotMauiSample
 {
     /// <summary>
-    /// Provides extension methods related to OxyPlot and Xamarin.Forms.
+    /// Provides extension methods related to OxyPlot and Maui.
     /// </summary>
     public static class ExtensionMethods
     {
@@ -21,7 +21,7 @@ namespace OxyplotMauiSample
         /// </summary>
         /// <param name="c">The color to convert.</param>
         /// <returns>The converted color.</returns>
-        public static Color ToXamarinForms(this OxyColor c)
+        public static Color ToMauiForms(this OxyColor c)
         {
             return Color.FromRgba(c.R, c.G, c.B, c.A);
         }

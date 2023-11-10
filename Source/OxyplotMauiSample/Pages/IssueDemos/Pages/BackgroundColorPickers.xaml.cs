@@ -24,9 +24,9 @@
             Func<Picker, OxyColor> getSelectedColor = s => colors[((Picker)s).SelectedIndex];
             pageBackgroundPicker.SelectedIndexChanged += (s, e) =>
             {
-                this.BackgroundColor = getSelectedColor((Picker)s).ToXamarinForms();
+                this.BackgroundColor = getSelectedColor((Picker)s).ToMauiForms();
             };
-            viewBackgroundPicker.SelectedIndexChanged += (s, e) => { this.plotView1.BackgroundColor = this.plotViewLabel.BackgroundColor = getSelectedColor((Picker)s).ToXamarinForms(); };
+            viewBackgroundPicker.SelectedIndexChanged += (s, e) => { this.plotView1.BackgroundColor = this.plotViewLabel.BackgroundColor = getSelectedColor((Picker)s).ToMauiForms(); };
             modelBackgroundPicker.SelectedIndexChanged += (s, e) => { model.Background = getSelectedColor((Picker)s); model.InvalidatePlot(false); };
             this.plotView1.Model = model;
         }

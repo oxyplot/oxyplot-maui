@@ -7,7 +7,7 @@
 namespace OxyPlot.Maui.Skia
 {
     /// <summary>
-    /// Base class for WPF PlotView implementations.
+    /// Base class for MAUI PlotView implementations.
     /// </summary>
     public abstract partial class PlotViewBase
     {

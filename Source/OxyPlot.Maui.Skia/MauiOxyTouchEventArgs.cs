@@ -1,10 +1,10 @@
 ﻿namespace OxyPlot.Maui.Skia
 {
-    internal class XamarinOxyTouchEventArgs : OxyTouchEventArgs
+    internal class MauiOxyTouchEventArgs : OxyTouchEventArgs
     {
         public int PointerCount { get; set; }
 
-        public XamarinOxyTouchEventArgs()
+        public MauiOxyTouchEventArgs()
         {
         }
 
@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="currentTouches">The current touches.</param>
         /// <param name="previousTouches">The previous touches.</param>
-        public XamarinOxyTouchEventArgs(ScreenPoint[] currentTouches, ScreenPoint[] previousTouches)
+        public MauiOxyTouchEventArgs(ScreenPoint[] currentTouches, ScreenPoint[] previousTouches)
         : base(currentTouches, previousTouches)
         {
             PointerCount = currentTouches.Length;
