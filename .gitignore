@@ -1,6 +1,7 @@
 bin/
 obj/
 .vs/
+.DS_Store
 packages/
 Resource.designer.cs
 *.user
