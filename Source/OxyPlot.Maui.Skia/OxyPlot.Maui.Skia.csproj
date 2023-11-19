@@ -15,6 +15,17 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+
+		<PackageId>OxyPlot.Maui.Skia</PackageId>
+		<Version>0.9.0</Version>
+		<Authors>OxyPlot contributors</Authors>
+		<Copyright>OxyPlot contributors</Copyright>
+		<PackageIconUrl>https://raw.githubusercontent.com/oxyplot/oxyplot/master/Icons/OxyPlot_128.png</PackageIconUrl>
+		<PackageLicenseUrl>https://raw.githubusercontent.com/oxyplot/oxyplot-maui/develop/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://oxyplot.github.io/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/oxyplot/oxyplot-maui</RepositoryUrl>
+		<Title>OxyPlot for MAUI</Title>
+		<Description>OxyPlot is a plotting library for .NET. This package targets MAUI.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
