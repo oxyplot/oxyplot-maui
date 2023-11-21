@@ -18,20 +18,26 @@
 
 		<PackageId>OxyPlot.Maui.Skia</PackageId>
 		<Version>0.9.1</Version>
-		<Authors>OxyPlot contributors</Authors>
-		<Copyright>OxyPlot contributors</Copyright>
-		<PackageIconUrl>https://raw.githubusercontent.com/oxyplot/oxyplot/master/Icons/OxyPlot_128.png</PackageIconUrl>
-		<PackageLicenseUrl>https://raw.githubusercontent.com/oxyplot/oxyplot-maui/develop/LICENSE</PackageLicenseUrl>
-		<PackageProjectUrl>https://oxyplot.github.io/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/oxyplot/oxyplot-maui</RepositoryUrl>
 		<Title>OxyPlot for MAUI</Title>
 		<Description>OxyPlot is a plotting library for .NET. This package targets MAUI.</Description>
+		<Authors>OxyPlot contributors</Authors>
+		<Copyright>OxyPlot contributors</Copyright>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://oxyplot.github.io/</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/oxyplot/oxyplot-maui</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="OxyPlot.Core" Version="2.1.2" />
 	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.6" />
 	  <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\icon.png" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 	<ItemGroup>
