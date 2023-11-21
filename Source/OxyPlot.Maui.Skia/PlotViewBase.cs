@@ -4,6 +4,9 @@ namespace OxyPlot.Maui.Skia;
 
 public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
 {
+    public event Action UpdateStarted;
+    public event Action UpdateFinished;
+    
     private int mainThreadId = 1;
 
     protected override void OnControlInitialized(Grid control)
@@ -138,6 +141,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// <param name="updateData">The update Data.</param>
     public void InvalidatePlot(bool updateData = true)
     {
+        UpdateStarted?.Invoke();
+
         if (this.ActualModel == null)
         {
             return;
@@ -371,6 +376,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
                 ((IPlotModel)this.ActualModel).Render(this.renderContext, new OxyRect(0, 0, width, height));
             }
         }
+
+        UpdateFinished?.Invoke();
     }
 
     /// <summary>
