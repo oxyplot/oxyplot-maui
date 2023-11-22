@@ -4,6 +4,11 @@ namespace OxyPlot.Maui.Skia;
 
 public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
 {
+    public event Action UpdateStarted;
+    public event Action UpdateFinished;
+    public event Action RenderStarted;
+    public event Action RenderFinished;
+    
     private int mainThreadId = 1;
 
     protected override void OnControlInitialized(Grid control)
@@ -142,11 +147,15 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
         {
             return;
         }
+        
+        UpdateStarted?.Invoke();
 
         lock (this.ActualModel.SyncRoot)
         {
             ((IPlotModel)this.ActualModel).Update(updateData);
         }
+        
+        UpdateFinished?.Invoke();
 
         this.BeginInvoke(this.Render);
     }
@@ -355,6 +364,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// </summary>
     protected virtual void RenderOverride()
     {
+        RenderStarted?.Invoke();
+
         var dpiScale = this.UpdateDpi();
         this.ClearBackground();
 
@@ -371,6 +382,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
                 ((IPlotModel)this.ActualModel).Render(this.renderContext, new OxyRect(0, 0, width, height));
             }
         }
+
+        RenderFinished?.Invoke();
     }
 
     /// <summary>
