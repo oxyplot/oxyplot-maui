@@ -6,6 +6,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
 {
     public event Action UpdateStarted;
     public event Action UpdateFinished;
+    public event Action RenderStarted;
+    public event Action RenderFinished;
     
     private int mainThreadId = 1;
 
@@ -141,17 +143,19 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// <param name="updateData">The update Data.</param>
     public void InvalidatePlot(bool updateData = true)
     {
-        UpdateStarted?.Invoke();
-
         if (this.ActualModel == null)
         {
             return;
         }
+        
+        UpdateStarted?.Invoke();
 
         lock (this.ActualModel.SyncRoot)
         {
             ((IPlotModel)this.ActualModel).Update(updateData);
         }
+        
+        UpdateFinished?.Invoke();
 
         this.BeginInvoke(this.Render);
     }
@@ -360,6 +364,8 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// </summary>
     protected virtual void RenderOverride()
     {
+        RenderStarted?.Invoke();
+
         var dpiScale = this.UpdateDpi();
         this.ClearBackground();
 
@@ -377,7 +383,7 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
             }
         }
 
-        UpdateFinished?.Invoke();
+        RenderFinished?.Invoke();
     }
 
     /// <summary>
