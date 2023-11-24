@@ -17,7 +17,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 		<PackageId>OxyPlot.Maui.Skia</PackageId>
-		<Version>0.9.1</Version>
+		<Version>0.9.2</Version>
 		<Title>OxyPlot for MAUI</Title>
 		<Description>OxyPlot is a plotting library for .NET. This package targets MAUI.</Description>
 		<Authors>OxyPlot contributors</Authors>
