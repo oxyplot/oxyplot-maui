@@ -30,9 +30,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="OxyPlot.Core" Version="2.1.2" />
-	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.6" />
-	  <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+		<PackageReference Include="OxyPlot.Core" Version="2.1.2" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net8.0')) ">
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
