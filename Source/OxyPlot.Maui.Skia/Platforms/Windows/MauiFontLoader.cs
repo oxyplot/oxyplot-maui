@@ -29,7 +29,5 @@ public class MauiFontLoader : IMauiFontLoader
             Console.WriteLine(e);
             return null;
         }
-
-        return null;
     }
 }
