@@ -32,7 +32,7 @@ namespace ExampleLibrary
         /// <summary>
         /// The un-modified example.
         /// </summary>
-        public Example Example { get; private set; }
+        private Example Example;
 
         /// <summary>
         /// The examples for this example info.

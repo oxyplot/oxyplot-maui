@@ -30,7 +30,7 @@ namespace ExampleLibrary
         /// <value>
         /// The controller.
         /// </value>
-        public IPlotController Controller { get; set; }
+        public IPlotController Controller { get; private set; }
 
         /// <summary>
         /// Gets the model.
