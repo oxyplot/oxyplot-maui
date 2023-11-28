@@ -53,8 +53,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Examples\ExampleLibrary\ExampleLibrary.csproj" />
-	  <ProjectReference Include="..\OxyPlot.Maui.Skia\OxyPlot.Maui.Skia.csproj" />
+		<ProjectReference Include="..\OxyPlot.Maui.Skia\OxyPlot.Maui.Skia.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="OxyPlot.ExampleLibrary" Version="2.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using ExampleLibrary;
 using ExampleLibrary.Utilities;
+using OxyPlot.Maui.Skia.Core;
+using OxyPlot;
 
 namespace OxyplotMauiSample
 {
@@ -16,6 +18,29 @@ namespace OxyplotMauiSample
             this.Unloaded += PlotViewPage_Unloaded;
         }
 
+        private IPlotController CreateAnnotationTrackController()
+        {
+            var controller = new OxyPlot.Maui.Skia.PlotController();
+            controller.UnbindTouchDown();
+
+            var snapTrackTouch = new DelegatePlotCommand<OxyTouchEventArgs>((view, c, args) =>
+                c.AddTouchManipulator(view, new OxyPlot.Maui.Skia.Manipulators.TouchTrackerManipulator(view)
+                {
+                    Snap = true,
+                    PointsOnly = true,
+                    LockToInitialSeries = false,
+                    IsTrackAnnotations = true
+                }, args));
+
+            var cmd = new CompositeDelegateViewCommand<OxyTouchEventArgs>(
+                snapTrackTouch,
+                OxyPlot.Maui.Skia.PlotCommands.PanZoomByTouch
+            );
+            controller.BindTouchDown(cmd);
+
+            return controller;
+        }
+
         private void PlotViewPage_Loaded(object sender, EventArgs e)
         {
             this.Title = ExampleInfo.Category + " - " + ExampleInfo.Title;
@@ -28,6 +53,11 @@ namespace OxyplotMauiSample
             if (ExampleInfo.PlotController != null)
             {
                 PlotView.Controller = ExampleInfo.PlotController;
+            }
+            else if (ExampleInfo.Tags.Contains("Annotations"))
+            {
+                // make the annotation tooltip work
+                PlotView.Controller = CreateAnnotationTrackController();
             }
         }
 
