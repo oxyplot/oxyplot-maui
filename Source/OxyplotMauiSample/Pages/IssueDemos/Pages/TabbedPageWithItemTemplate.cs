@@ -43,8 +43,8 @@ namespace OxyplotMauiSample
 
                 var plotView = new PlotView
                 {
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalOptions = LayoutOptions.Fill,
+                    VerticalOptions = LayoutOptions.Fill,
                     Model = plotModel
                 };
 

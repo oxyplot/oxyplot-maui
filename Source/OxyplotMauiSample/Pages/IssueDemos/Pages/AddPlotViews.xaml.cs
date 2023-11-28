@@ -21,10 +21,12 @@ namespace OxyplotMauiSample
             int n = this.layout1.Children.Count + 1;
             var pm = new PlotModel { Title = "Plot " + n, Background = backgroundColors[n % backgroundColors.Length] };
             pm.Series.Add(new FunctionSeries(x => Math.Sin(n * x), 0, 20, 500, "sin(x)"));
-            var pv = new PlotView();
-            pv.Model = pm;
-            pv.HorizontalOptions = LayoutOptions.FillAndExpand;
-            pv.HeightRequest = 200;
+            var pv = new PlotView()
+            {
+                Model = pm,
+                HorizontalOptions = LayoutOptions.Fill,
+                HeightRequest = 200,
+            };
             this.layout1.Children.Add(pv);
         }
         public void RemoveButtonClicked(object sender, EventArgs e)
