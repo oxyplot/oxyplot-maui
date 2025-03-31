@@ -1,6 +1,6 @@
 ﻿namespace OxyPlot.Maui.Skia;
 
-internal class MauiOxyTouchEventArgs : OxyTouchEventArgs
+public class MauiOxyTouchEventArgs : OxyTouchEventArgs
 {
     public int PointerCount { get; set; }
 
