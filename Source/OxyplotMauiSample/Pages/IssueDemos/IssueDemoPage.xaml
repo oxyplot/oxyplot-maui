@@ -7,13 +7,13 @@
     Title="Select demo">
     <ListView
         x:Name="list1"
-        x:DataType="oxyplotMauiSample:DemoInfo"
         HorizontalOptions="Fill"
         ItemTapped="ListView_OnItemTapped"
         VerticalOptions="Fill">
         <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextCell Detail="{Binding Details}" Text="{Binding Title}" />
+            <DataTemplate x:DataType="oxyplotMauiSample:DemoInfo">
+                <TextCell Detail="{Binding Details}"
+                          Text="{Binding Title}"/>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
