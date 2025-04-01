@@ -8,7 +8,7 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     public event Action UpdateFinished;
     public event Action RenderStarted;
     public event Action RenderFinished;
-    
+
     private int mainThreadId = 1;
 
     protected override void OnControlInitialized(Grid control)
@@ -74,7 +74,7 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// </summary>
     protected PlotViewBase()
     {
-        this.TrackerDefinitions = new ObservableCollection<TrackerDefinition>();
+        TrackerDefinitions = new ObservableCollection<TrackerDefinition>();
 
         DefaultTrackerTemplate = new ControlTemplate(() =>
         {
@@ -84,7 +84,7 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
             tc.Content = TrackerControl.DefaultTrackerTemplateContentProvider();
             return tc;
         });
-        this.LayoutChanged += this.OnLayoutUpdated;
+        SizeChanged += OnSizeUpdated;
     }
 
     /// <summary>
@@ -147,14 +147,14 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
         {
             return;
         }
-        
+
         UpdateStarted?.Invoke();
 
         lock (this.ActualModel.SyncRoot)
         {
             ((IPlotModel)this.ActualModel).Update(updateData);
         }
-        
+
         UpdateFinished?.Invoke();
 
         this.BeginInvoke(this.Render);
@@ -452,7 +452,7 @@ public abstract partial class PlotViewBase : BaseTemplatedView<Grid>, IPlotView
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The event args.</param>
-    private void OnLayoutUpdated(object sender, EventArgs e)
+    private void OnSizeUpdated(object sender, EventArgs e)
     {
         // if we were not in the visual tree the last time we tried to render but are now, we have to render
         if (!this.isInVisualTree && this.IsInVisualTree())
