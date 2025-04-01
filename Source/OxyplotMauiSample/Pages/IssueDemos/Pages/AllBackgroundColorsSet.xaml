@@ -2,8 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia"
-             x:Class="OxyplotMauiSample.AllBackgroundColorsSet" BackgroundColor="Yellow">
+             xmlns:local="clr-namespace:OxyplotMauiSample"
+             x:Class="OxyplotMauiSample.AllBackgroundColorsSet"
+             x:DataType="local:AllBackgroundColorsSet"
+             BackgroundColor="Yellow">
   <StackLayout>
-    <oxy:PlotView BackgroundColor="Blue" Model="{Binding Model}" HeightRequest="200"/>
+    <oxy:PlotView
+      BackgroundColor="Blue"
+      Model="{Binding Model}"
+      HeightRequest="200"/>
   </StackLayout>
 </ContentPage>
