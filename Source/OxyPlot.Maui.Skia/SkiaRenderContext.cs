@@ -17,6 +17,7 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
     private readonly Dictionary<FontDescriptor, SKShaper> shaperCache = new();
     private readonly Dictionary<FontDescriptor, SKTypeface> typefaceCache = new();
     private SKPaint paint = new();
+    private SKFont font = new();
     private SKPath path = new();
 
     /// <summary>
@@ -364,14 +365,15 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
             return;
         }
 
-        var paint = this.GetTextPaint(fontFamily, fontSize, fontWeight, out var shaper);
+        var font = this.GetTextFont(fontFamily, fontSize, fontWeight, out var shaper);
+        var paint = this.GetTextPaint();
         paint.Color = fill.ToSKColor();
 
         var x = this.Convert(p.X);
         var y = this.Convert(p.Y);
 
         var lines = StringHelper.SplitLines(text);
-        var lineHeight = paint.GetFontMetrics(out var metrics);
+        var lineHeight = font.GetFontMetrics(out var metrics);
 
         var deltaY = verticalAlignment switch
         {
@@ -389,7 +391,7 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         {
             if (this.UseTextShaping)
             {
-                var width = this.MeasureText(line, shaper, paint);
+                var width = this.MeasureText(line, shaper, font);
                 var deltaX = horizontalAlignment switch
                 {
                     HorizontalAlignment.Left => 0,
@@ -398,12 +400,11 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
                     _ => throw new ArgumentOutOfRangeException(nameof(horizontalAlignment))
                 };
 
-                this.paint.TextAlign = SKTextAlign.Left;
-                this.SkCanvas.DrawShapedText(shaper, line, deltaX, deltaY, paint);
+                this.SkCanvas.DrawShapedText(shaper, line, deltaX, deltaY, SKTextAlign.Left, font, paint);
             }
             else
             {
-                paint.TextAlign = horizontalAlignment switch
+                var align = horizontalAlignment switch
                 {
                     HorizontalAlignment.Left => SKTextAlign.Left,
                     HorizontalAlignment.Center => SKTextAlign.Center,
@@ -411,7 +412,7 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
                     _ => throw new ArgumentOutOfRangeException(nameof(horizontalAlignment))
                 };
 
-                this.SkCanvas.DrawText(line, 0, deltaY, paint);
+                this.SkCanvas.DrawText(line, 0, deltaY, align, font, paint);
             }
 
             deltaY += lineHeight;
@@ -427,9 +428,10 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         }
 
         var lines = StringHelper.SplitLines(text);
-        var paint = this.GetTextPaint(fontFamily, fontSize, fontWeight, out var shaper);
-        var height = paint.GetFontMetrics(out _) * lines.Length;
-        var width = lines.Max(line => this.MeasureText(line, shaper, paint));
+        var font = this.GetTextFont(fontFamily, fontSize, fontWeight, out var shaper);
+        var paint = this.GetTextPaint();
+        var height = font.GetFontMetrics(out _) * lines.Length;
+        var width = lines.Max(line => this.MeasureText(line, shaper, font));
 
         return new OxySize(this.ConvertBack(width), this.ConvertBack(height));
     }
@@ -833,17 +835,17 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
     }
 
     /// <summary>
-    /// Gets a <see cref="SKPaint"/> containing information needed to render text.
+    /// Gets a <see cref="SKFont"/> containing information needed to render text.
     /// </summary>
     /// <remarks>
-    /// This modifies and returns the local <see cref="paint"/> instance.
+    /// This modifies and returns the local <see cref="font"/> instance.
     /// </remarks>
     /// <param name="fontFamily">The font family.</param>
     /// <param name="fontSize">The font size.</param>
     /// <param name="fontWeight">The font weight.</param>
     /// <param name="shaper">The font shaper.</param>
-    /// <returns>The paint.</returns>
-    private SKPaint GetTextPaint(string fontFamily, double fontSize, double fontWeight, out SKShaper shaper)
+    /// <returns>The font.</returns>
+    private SKFont GetTextFont(string fontFamily, double fontSize, double fontWeight, out SKShaper shaper)
     {
         var fontDescriptor = new FontDescriptor(fontFamily, fontWeight);
         if (!this.typefaceCache.TryGetValue(fontDescriptor, out var typeface))
@@ -865,12 +867,24 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
             shaper = null;
         }
 
-        this.paint.Typeface = typeface;
-        this.paint.TextSize = this.Convert(fontSize);
+        this.font.Typeface = typeface;
+        this.font.Size = this.Convert(fontSize);
+        this.font.Hinting = this.RendersToScreen ? SKFontHinting.Full : SKFontHinting.None;
+        this.font.Subpixel = this.RendersToScreen;
+        return this.font;
+    }
+
+    /// <summary>
+    /// Gets a <see cref="SKPaint"/> containing information needed to render text.
+    /// </summary>
+    /// <remarks>
+    /// This modifies and returns the local <see cref="paint"/> instance.
+    /// </remarks>
+    /// <returns>The paint.</returns>
+    private SKPaint GetTextPaint()
+    {
         this.paint.IsAntialias = true;
         this.paint.Style = SKPaintStyle.Fill;
-        this.paint.HintingLevel = this.RendersToScreen ? SKPaintHinting.Full : SKPaintHinting.NoHinting;
-        this.paint.SubpixelText = this.RendersToScreen;
         return this.paint;
     }
 
@@ -879,13 +893,13 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
     /// </summary>
     /// <param name="text">The text to measure.</param>
     /// <param name="shaper">The text shaper.</param>
-    /// <param name="paint">The paint.</param>
+    /// <param name="font">The font.</param>
     /// <returns>The width of the text when rendered using the specified shaper and paint.</returns>
-    private float MeasureText(string text, SKShaper shaper, SKPaint paint)
+    private float MeasureText(string text, SKShaper shaper, SKFont font)
     {
         if (!this.UseTextShaping)
         {
-            return paint.MeasureText(text);
+            return font.MeasureText(text);
         }
 
         // we have to get a bit creative here as SKShaper does not offer a direct overload for this.
@@ -907,8 +921,8 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         }
 
         buffer.GuessSegmentProperties();
-        shaper.Shape(buffer, paint);
-        return buffer.GlyphPositions.Sum(gp => gp.XAdvance) * paint.TextSize / 512;
+        shaper.Shape(buffer, font);
+        return buffer.GlyphPositions.Sum(gp => gp.XAdvance) * font.Size / 512;
     }
 
     /// <summary>
