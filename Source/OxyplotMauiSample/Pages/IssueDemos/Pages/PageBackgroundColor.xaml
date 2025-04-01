@@ -4,6 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:oxy="clr-namespace:OxyPlot.Maui.Skia;assembly=OxyPlot.Maui.Skia"
+    xmlns:local="clr-namespace:OxyplotMauiSample"
+    x:DataType="local:PageBackgroundColor"
     BackgroundColor="Yellow">
-    <oxy:PlotView Model="{Binding Model}" />
+    <oxy:PlotView Model="{Binding Model}"/>
 </ContentPage>

@@ -372,7 +372,11 @@ public partial class TrackerControl
 
         var canvasWidth = parent.Width;
         var canvasHeight = parent.Height;
+#if NET9_0_OR_GREATER
+        var contentSize = content.Measure(canvasWidth, canvasHeight);
+#else
         var contentSize = content.Measure(canvasWidth, canvasHeight).Request;
+#endif
 
         var contentWidth = contentSize.Width;
         var contentHeight = contentSize.Height;
