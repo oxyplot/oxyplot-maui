@@ -912,20 +912,21 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         // we have to get a bit creative here as SKShaper does not offer a direct overload for this.
         // see also https://github.com/mono/SkiaSharp/blob/master/source/SkiaSharp.HarfBuzz/SkiaSharp.HarfBuzz.Shared/SKShaper.cs
         using var buffer = new HarfBuzzSharp.Buffer();
-        switch (paint.TextEncoding)
-        {
-            case SKTextEncoding.Utf8:
-                buffer.AddUtf8(text);
-                break;
-            case SKTextEncoding.Utf16:
-                buffer.AddUtf16(text);
-                break;
-            case SKTextEncoding.Utf32:
-                buffer.AddUtf32(text);
-                break;
-            default:
-                throw new NotSupportedException("TextEncoding is not supported.");
-        }
+
+        // switch (paint.TextEncoding)
+        // {
+        //     case SKTextEncoding.Utf8:
+        buffer.AddUtf8(text);
+        //         break;
+        //     case SKTextEncoding.Utf16:
+        //         buffer.AddUtf16(text);
+        //         break;
+        //     case SKTextEncoding.Utf32:
+        //         buffer.AddUtf32(text);
+        //         break;
+        //     default:
+        //         throw new NotSupportedException("TextEncoding is not supported.");
+        // }
 
         buffer.GuessSegmentProperties();
         shaper.Shape(buffer, font);
