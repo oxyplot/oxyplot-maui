@@ -131,7 +131,7 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         double destWidth,
         double destHeight,
         double opacity,
-        bool interpolate)
+        bool interpolate = false)
     {
         if (source == null)
         {
@@ -139,13 +139,22 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
         }
 
         var bytes = source.GetData();
-        var image = SKBitmap.Decode(bytes);
+        var bmp = SKBitmap.Decode(bytes);
 
         var src = new SKRect((float)srcX, (float)srcY, (float)(srcX + srcWidth), (float)(srcY + srcHeight));
         var dest = new SKRect(this.Convert(destX), this.Convert(destY), this.Convert(destX + destWidth), this.Convert(destY + destHeight));
 
-        var paint = this.GetImagePaint(opacity, interpolate);
-        this.SkCanvas.DrawBitmap(image, src, dest, paint);
+        var paint = this.GetImagePaint(opacity);
+        if (interpolate)
+        {
+            var sampling = new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear);
+            var img = SKImage.FromBitmap(bmp);
+            this.SkCanvas.DrawImage(img, src, dest, sampling, paint);
+        }
+        else
+        {
+            this.SkCanvas.DrawBitmap(bmp, src, dest, paint);
+        }
     }
 
     /// <inheritdoc/>
@@ -741,12 +750,10 @@ internal class SkiaRenderContext : IRenderContext, IDisposable
     /// This modifies and returns the local <see cref="paint"/> instance.
     /// </remarks>
     /// <param name="opacity">The opacity.</param>
-    /// <param name="interpolate">A value indicating whether interpolation should be used.</param>
     /// <returns>The paint.</returns>
-    private SKPaint GetImagePaint(double opacity, bool interpolate)
+    private SKPaint GetImagePaint(double opacity)
     {
         this.paint.Color = new SKColor(0, 0, 0, (byte)(255 * opacity));
-        this.paint.FilterQuality = interpolate ? SKFilterQuality.High : SKFilterQuality.None;
         this.paint.IsAntialias = true;
         return this.paint;
     }
