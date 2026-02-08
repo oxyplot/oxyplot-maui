@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -28,14 +28,11 @@ jobs:
         java-version: '11'
     - name: Install .NET MAUI
       shell: pwsh
-      run: |
-        & dotnet nuget locals all --clear
-        & dotnet workload install maui --source https://aka.ms/dotnet6/nuget/index.json --source https://api.nuget.org/v3/index.json
-        & dotnet workload install android ios maccatalyst tvos macos maui wasm-tools maui-maccatalyst --source https://aka.ms/dotnet6/nuget/index.json --source https://api.nuget.org/v3/index.json
+      run: dotnet workload install maui 
     - name: Build library (with nuget package)
-      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj /p:Configuration=Release /t:restore,build,pack /p:PackageOutputPath=./nuget /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj -c Release -t:restore,build,pack -p:PackageOutputPath=./nuget -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
     - name: Build sample
-      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj /p:Configuration=Release /t:restore,build /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj -c Debug -t:restore,build -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
     - name: Upload packages
       uses: actions/upload-artifact@v4
       with:
@@ -51,22 +48,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
     - name: Setup XCode
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: latest-stable
+        xcode-version: '26.2'
     - name: Install .NET MAUI
-      run: |
-        dotnet nuget locals all --clear
-        dotnet workload install maui --source https://aka.ms/dotnet6/nuget/index.json --source https://api.nuget.org/v3/index.json
-        dotnet workload install android ios maccatalyst tvos macos maui wasm-tools maui-maccatalyst --source https://aka.ms/dotnet6/nuget/index.json --source https://api.nuget.org/v3/index.json
+      run: dotnet workload install maui 
     - name: Install Android tools
       run: ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-34" "build-tools;34.0.0" "platform-tools"
     - name: Build library (with nuget package)
-      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj /p:Configuration=Release /t:restore,build,pack /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj -c Release -t:restore,build,pack -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
     - name: Build sample
-      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj /p:Configuration=Release /t:restore,build /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj -c Debug -t:restore,build -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
 
   linuxBuild:
     runs-on: ubuntu-latest
@@ -77,12 +71,12 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
     - name: Install workloads
-      run: dotnet workload install android wasm-tools maui-android
+      run: dotnet workload install maui-android
     - name: Install Android tools
       run: ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools"
     - name: Build library (with nuget package)
-      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj /p:Configuration=Release /t:restore,build,pack /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyPlot.Maui.Skia/OxyPlot.Maui.Skia.csproj -c Release -t:restore,build,pack -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
     - name: Build sample
-      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj /p:Configuration=Release /t:restore,build /p:Version=$(git describe) /p:ContinuousIntegrationBuild=true /p:DeterministicSourcePaths=false
+      run: dotnet build ./Source/OxyplotMauiSample/OxyplotMauiSample.csproj -c Debug -t:restore,build -p:Version=$(git describe) -p:ContinuousIntegrationBuild=true -p:DeterministicSourcePaths=false
