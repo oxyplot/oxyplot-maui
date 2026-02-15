@@ -13,10 +13,10 @@ public class MauiFontLoader : IMauiFontLoader
             fontRegistrar = IPlatformApplication.Current.Services.GetRequiredService<IFontRegistrar>();
 
         fontName = fontRegistrar.GetFont(fontName);
-        if (File.Exists(fontName))
-        {
+        if (fontName == null)
+            return null;
+        else if (File.Exists(fontName))
             return File.OpenRead(fontName);
-        }
 
         try
         {
