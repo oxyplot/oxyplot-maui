@@ -13,10 +13,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>OxyplotMauiSimple</ApplicationTitle>
+		<ApplicationTitle>OxyplotMauiSample</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.oxyplotmauisimple</ApplicationId>
+		<ApplicationId>com.companyname.oxyplotmauisample</ApplicationId>
 		<ApplicationIdGuid>2C1CD083-05E3-4080-840A-EC3B8334CCD7</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -62,7 +62,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="OxyPlot.ExampleLibrary" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.40" />
 	</ItemGroup>
 
 	<ItemGroup>
