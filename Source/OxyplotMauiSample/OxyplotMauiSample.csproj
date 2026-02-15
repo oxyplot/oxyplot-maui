@@ -13,10 +13,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>OxyplotMauiSimple</ApplicationTitle>
+		<ApplicationTitle>OxyplotMauiSample</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.oxyplotmauisimple</ApplicationId>
+		<ApplicationId>com.companyname.oxyplotmauisample</ApplicationId>
 		<ApplicationIdGuid>2C1CD083-05E3-4080-840A-EC3B8334CCD7</ApplicationIdGuid>
 
 		<!-- Versions -->
