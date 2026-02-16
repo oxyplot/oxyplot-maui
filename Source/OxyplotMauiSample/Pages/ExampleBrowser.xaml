@@ -25,6 +25,10 @@
             Grid.Row="1"
             IsGrouped="true"
             ItemsSource="{Binding Examples}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="8" />
+            </CollectionView.ItemsLayout>
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="oxyplotMauiSample:ExampleGroup">
                     <Label Text="{Binding Category}"
