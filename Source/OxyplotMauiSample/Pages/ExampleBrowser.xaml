@@ -20,18 +20,33 @@
                 TextTransform="None" />
         </Grid>
 
-        <ListView
+        <CollectionView
             x:Name="LvExamples"
             Grid.Row="1"
-            GroupDisplayBinding="{Binding Category}"
-            IsGroupingEnabled="true"
-            ItemSelected="ListView_OnItemSelected"
+            IsGrouped="true"
             ItemsSource="{Binding Examples}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="exampleLibrary:ExampleInfo">
-                    <TextCell Text="{Binding Title}" />
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="oxyplotMauiSample:ExampleGroup">
+                    <Label Text="{Binding Category}"
+                           BackgroundColor="Gray"
+                           FontSize="20"
+                           FontAttributes="Bold" />
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="exampleLibrary:ExampleInfo">
+                    <Label Text="{Binding Title}" FontSize="18">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CollectionView_OnItemTapped"
+                                                  NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
 </ContentPage>

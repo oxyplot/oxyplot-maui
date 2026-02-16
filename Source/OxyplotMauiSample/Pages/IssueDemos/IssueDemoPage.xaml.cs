@@ -20,9 +20,10 @@ namespace OxyplotMauiSample
             this.list1.ItemsSource = demoPages;
         }
 
-        private async void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        private async void CollectionView_OnItemTapped(object sender, TappedEventArgs e)
         {
-            var demoInfo = (DemoInfo)e.Item;
+            var grid = (Grid)sender;
+            var demoInfo = (DemoInfo)grid.BindingContext;
             var page = demoInfo.CreatePage();
             page.Title = demoInfo.Title;
             await Navigation.PushAsync(page);

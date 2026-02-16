@@ -5,16 +5,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:oxyplotMauiSample="clr-namespace:OxyplotMauiSample"
     Title="Select demo">
-    <ListView
+    <CollectionView
         x:Name="list1"
         HorizontalOptions="Fill"
-        ItemTapped="ListView_OnItemTapped"
         VerticalOptions="Fill">
-        <ListView.ItemTemplate>
+        <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="oxyplotMauiSample:DemoInfo">
-                <TextCell Detail="{Binding Details}"
-                          Text="{Binding Title}"/>
+                <Grid Padding="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" />
+                    <Label Grid.Row="1" Text="{Binding Details}" FontSize="Small" TextColor="Gray" />
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CollectionView_OnItemTapped"
+                                              NumberOfTapsRequired="1" />
+                    </Grid.GestureRecognizers>
+                </Grid>
             </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 </ContentPage>

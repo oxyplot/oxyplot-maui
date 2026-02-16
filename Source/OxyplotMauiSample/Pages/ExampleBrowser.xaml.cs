@@ -23,12 +23,10 @@ namespace OxyplotMauiSample
             this.BindingContext = _viewModel;
         }
 
-        private async void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void CollectionView_OnItemTapped(object sender, TappedEventArgs e)
         {
-            if (e.SelectedItemIndex < 0)
-                return;
-
-            var exampleInfo = e.SelectedItem as ExampleInfo;
+            var lbl = (Label)sender;
+            var exampleInfo = lbl.BindingContext as ExampleInfo;
             var page = new PlotViewPage
             {
                 ExampleInfo = exampleInfo
